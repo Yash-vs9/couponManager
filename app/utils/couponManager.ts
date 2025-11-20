@@ -1,5 +1,3 @@
-// app/utils/couponManager.ts
-
 export interface CartItem {
     productId: string;
     category: string;
@@ -21,14 +19,14 @@ export interface CartItem {
   }
   
   export interface Eligibility {
-    allowedUserTiers?: string[]; 
+    allowedUserTiers?: string[];
     minLifetimeSpend?: number;
     minOrdersPlaced?: number;
     firstOrderOnly?: boolean;
-    allowedCountries?: string[]; 
+    allowedCountries?: string[];
     minCartValue?: number;
-    applicableCategories?: string[]; 
-    excludedCategories?: string[]; 
+    applicableCategories?: string[];
+    excludedCategories?: string[];
     minItemsCount?: number;
   }
   
@@ -50,13 +48,18 @@ export interface CartItem {
   
   export const getCoupons = (): Coupon[] => {
     if (typeof window === "undefined") return [];
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      console.error("Failed to parse coupons", e);
+      return [];
+    }
   };
   
   export const saveCoupon = (coupon: Coupon) => {
     const coupons = getCoupons();
-    // Remove existing if duplicate code
+    // Remove existing if duplicate code to allow updates
     const filtered = coupons.filter((c) => c.code !== coupon.code);
     filtered.push(coupon);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
@@ -68,19 +71,29 @@ export interface CartItem {
     const coupons = getCoupons();
     const now = new Date().getTime();
     
-    // Calculate Cart Total
+    // Calculate Cart Totals
     const cartTotal = cart.items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
     const totalItems = cart.items.reduce((sum, item) => sum + item.quantity, 0);
-    const cartCategories = cart.items.map(item => item.category);
+    
+    // Get unique categories in cart
+    const cartCategories = Array.from(new Set(cart.items.map(item => item.category.toLowerCase())));
   
     let bestCoupon: Coupon | null = null;
     let maxDiscount = 0;
   
     for (const coupon of coupons) {
       // 1. Date Validation
-      const start = new Date(coupon.startDate).getTime();
-      const end = new Date(coupon.endDate).getTime();
-      if (now < start || now > end) continue;
+      if (coupon.startDate) {
+         const start = new Date(coupon.startDate).getTime();
+         if (now < start) continue;
+      }
+      if (coupon.endDate) {
+         const end = new Date(coupon.endDate).getTime();
+         // Set end date to end of the day
+         const endDateObj = new Date(coupon.endDate);
+         endDateObj.setHours(23, 59, 59, 999);
+         if (now > endDateObj.getTime()) continue;
+      }
   
       // 2. Eligibility Checks
       const rules = coupon.eligibility;
@@ -110,15 +123,17 @@ export interface CartItem {
       // Min Items
       if (rules.minItemsCount && totalItems < rules.minItemsCount) continue;
   
-      // Applicable Categories (Must contain at least one item from list)
+      // Applicable Categories (Cart must contain at least one item from this list)
       if (rules.applicableCategories?.length && rules.applicableCategories.length > 0) {
-        const hasCategory = cart.items.some(item => rules.applicableCategories!.includes(item.category));
+        const normalizedApplicable = rules.applicableCategories.map(c => c.toLowerCase());
+        const hasCategory = cart.items.some(item => normalizedApplicable.includes(item.category.toLowerCase()));
         if (!hasCategory) continue;
       }
   
-      // Excluded Categories (Must NOT contain any item from list)
+      // Excluded Categories (Cart must NOT contain any item from this list)
       if (rules.excludedCategories?.length && rules.excludedCategories.length > 0) {
-        const hasExcluded = cart.items.some(item => rules.excludedCategories!.includes(item.category));
+        const normalizedExcluded = rules.excludedCategories.map(c => c.toLowerCase());
+        const hasExcluded = cart.items.some(item => normalizedExcluded.includes(item.category.toLowerCase()));
         if (hasExcluded) continue;
       }
   
@@ -127,13 +142,14 @@ export interface CartItem {
       if (coupon.discountType === "FLAT") {
         discountAmount = coupon.discountValue;
       } else {
+        // Percent Logic
         discountAmount = (cartTotal * coupon.discountValue) / 100;
-        if (coupon.maxDiscountAmount) {
+        if (coupon.maxDiscountAmount && coupon.maxDiscountAmount > 0) {
           discountAmount = Math.min(discountAmount, coupon.maxDiscountAmount);
         }
       }
   
-      // Ensure discount doesn't exceed cart total
+      // Ensure discount doesn't exceed cart total (cannot have negative total)
       discountAmount = Math.min(discountAmount, cartTotal);
   
       if (discountAmount > maxDiscount) {

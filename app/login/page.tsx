@@ -128,7 +128,7 @@ export default function LoginPage() {
               <Button 
                 type="submit" 
                 disabled={isLoading}
-                className="w-full py-6 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-semibold shadow-lg shadow-cyan-900/20 rounded-xl transition-all duration-200"
+                className="w-full py-2 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-semibold shadow-lg shadow-cyan-900/20 rounded-xl transition-all duration-200"
               >
                 {isLoading ? (
                   <>
@@ -136,7 +136,7 @@ export default function LoginPage() {
                   </>
                 ) : (
                   <>
-                    Sign In <ArrowRight className="w-4 h-4 ml-2" />
+                    Sign In 
                   </>
                 )}
               </Button>

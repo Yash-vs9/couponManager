@@ -135,7 +135,7 @@ export default function BestCouponSimulatorPage() {
                                 <input placeholder="Category (e.g. electronics)" value={newItem.category} onChange={e => setNewItem({...newItem, category: e.target.value})} className={`${inputClass} md:w-2/5`} />
                                 <input type="number" placeholder="Price" value={newItem.unitPrice || ''} onChange={e => setNewItem({...newItem, unitPrice: Number(e.target.value)})} className={`${inputClass} md:w-1/4`} />
                                 <input type="number" placeholder="Qty" value={newItem.quantity} onChange={e => setNewItem({...newItem, quantity: Number(e.target.value)})} className={`${inputClass} md:w-1/6`} />
-                                <Button onClick={addItem} size="icon" className="bg-cyan-600 hover:bg-cyan-500 md:w-1/6 aspect-square md:aspect-auto h-10 w-full">
+                                <Button onClick={addItem}  className="bg-cyan-600 hover:bg-cyan-500 md:w-1/6 aspect-square md:aspect-auto h-10 w-full">
                                     <Plus className="w-5 h-5" />
                                 </Button>
                             </div>
@@ -178,9 +178,9 @@ export default function BestCouponSimulatorPage() {
                         <Button 
                             onClick={simulate} 
                             disabled={cartItems.length === 0}
-                            className="md:col-span-1 h-full py-6 text-lg font-bold bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 shadow-lg shadow-cyan-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="md:col-span-1 h-14  text-lg font-bold bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 shadow-lg shadow-cyan-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            <Calculator className="mr-2 w-5 h-5" /> 
+
                             Calculate
                         </Button>
 

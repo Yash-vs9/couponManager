@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { saveCoupon, Coupon } from "@/app/utils/couponManager";
-import { Calendar, Tag, Users, DollarSign, ShoppingBag, ListFilter } from "lucide-react"; // Assuming you have lucide-react, otherwise remove icons
+import { Tag, Users, Calendar, CheckCircle2 } from "lucide-react";
 
 export default function CreateCouponPage() {
   const [form, setForm] = useState<Partial<Coupon>>({
