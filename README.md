@@ -32,20 +32,20 @@ State Management: React Hooks & Server-Side In-Memory Store
 
 1. Clone the Repository
 
-git clone [https://github.com/your-username/coupon-system.git](https://github.com/your-username/coupon-system.git)
-cd coupon-system
+```git clone [https://github.com/your-username/coupon-system.git](https://github.com/your-username/coupon-system.git)
+cd coupon-system```
 
 
 2. Install Dependencies
 
-npm install
+```npm install
 # OR
-yarn install
+yarn install```
 
 
 3. Run the Development Server
 
-npm run dev
+```npm run dev```
 
 
 Open http://localhost:3000 with your browser.
@@ -67,7 +67,7 @@ Password
 HireMe@2025!
 
 📂 Project Structure
-
+```
 app/
 ├── admin/
 │   └── coupons/
@@ -82,7 +82,7 @@ app/
 ├── utils/
 │   └── couponManager.ts          # Shared Types & Client API Bridge
 └── login/                        # Authentication Page
-
+```
 
 📡 API Documentation
 
@@ -93,7 +93,7 @@ Endpoint: POST /api/coupons
 Description: Stores a new coupon in the in-memory database.
 
 Payload:
-
+```
 {
   "code": "WELCOME50",
   "discountType": "PERCENT",
@@ -103,7 +103,7 @@ Payload:
     "minCartValue": 500
   }
 }
-
+```
 
 2. Get All Coupons
 
@@ -118,12 +118,12 @@ Endpoint: POST /api/coupons/best
 Description: Runs the logic engine to find the highest discount.
 
 Payload:
-
+```
 {
   "user": { "userTier": "GOLD", "country": "IN", ... },
   "cart": { "items": [{ "category": "electronics", "price": 1000 }] }
 }
-
+```
 
 🧠 Logic Engine Details
 
@@ -159,6 +159,4 @@ Solution: For the demo, create coupons fresh every time you restart the applicat
 
 Case Sensitivity: The logic engine is Case Insensitive.
 
-"Electronics", "electronics", and "ELECTRONICS" are treated as identical.
-
-"ALL" works for User Tiers and Countries as a wildcard.
+"Electronics", "electronics", and "ELECTRONICS" are treated as identical
