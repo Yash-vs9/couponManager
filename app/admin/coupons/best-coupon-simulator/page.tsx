@@ -236,7 +236,8 @@ export default function BestCouponSimulatorPage() {
                                     <AlertCircle className="w-8 h-8 text-gray-600 mx-auto mb-2" />
                                     <p className="text-gray-500 text-sm">No coupons found.</p>
                                     <Link href="/admin/coupons/create">
-                                        <Button variant="link" className="text-cyan-400 mt-2">Create one now &rarr;</Button>
+                                        {/* FIXED: Changed from variant="link" to variant="ghost" */}
+                                        <Button variant="ghost" className="text-cyan-400 mt-2 hover:text-cyan-300 hover:bg-gray-800">Create one now &rarr;</Button>
                                     </Link>
                                 </div>
                             ) : (
