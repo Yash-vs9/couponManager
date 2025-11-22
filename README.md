@@ -33,41 +33,26 @@ State Management: React Hooks & Server-Side In-Memory Store
 1. Clone the Repository
 
 ```git clone [https://github.com/your-username/coupon-system.git](https://github.com/your-username/coupon-system.git)
-cd coupon-system```
+cd coupon-system
 
 
 2. Install Dependencies
 
-```npm install
+npm install
 # OR
-yarn install```
+yarn install
 
 
 3. Run the Development Server
 
-```npm run dev```
+npm run dev
 
 
 Open http://localhost:3000 with your browser.
-
-🔐 Login Credentials
-
-The application is protected by a simulated authentication system. Use the following hardcoded credentials to access the dashboard:
-
-Field
-
-Value
-
-Email
-
-hire-me@anshumat.org
-
-Password
-
-HireMe@2025!
+```
 
 📂 Project Structure
-```
+
 app/
 ├── admin/
 │   └── coupons/
@@ -82,7 +67,7 @@ app/
 ├── utils/
 │   └── couponManager.ts          # Shared Types & Client API Bridge
 └── login/                        # Authentication Page
-```
+
 
 📡 API Documentation
 
