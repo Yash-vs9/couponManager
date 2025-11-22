@@ -52,7 +52,7 @@ Open http://localhost:3000 with your browser.
 ```
 
 📂 Project Structure
-
+```
 app/
 ├── admin/
 │   └── coupons/
@@ -67,7 +67,7 @@ app/
 ├── utils/
 │   └── couponManager.ts          # Shared Types & Client API Bridge
 └── login/                        # Authentication Page
-
+```
 
 📡 API Documentation
 
